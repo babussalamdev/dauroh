@@ -7,7 +7,7 @@
       <SearchBar />
 
       <!-- Pembungkus tombol dan teks -->
-      <div class="d-flex flex-column justify-content-center align-items-center mx-auto" style="max-width: 500px;">
+      <div class="d-flex flex-column justify-content-center align-items-center mx-auto">
         <div class="d-flex justify-content-around align-items-center mb-5">
           <div class="button-wrapper">
             <HeroButton :icon="BioskopIcon" bgClass="bg-info-light" />
@@ -32,8 +32,8 @@
 </template>
 
 <script setup>
-import SearchBar from '~/components/common/SearchBar.vue'
-import HeroButton from '~/components/button/HeroButton.vue'
+import SearchBar from '~/components/common/SearchBar.vue';
+import HeroButton from '~/components/button/HeroButton.vue';
 import BioskopIcon from '~/components/icons/BioskopIcon.vue';
 import FilmIcon from '~/components/icons/FilmIcon.vue';
 import FoodIcon from '~/components/icons/FoodIcon.vue';
@@ -81,6 +81,7 @@ import SewaIcon from '~/components/icons/SewaIcon.vue';
   align-items: center;
   width: 120px; /* Lebar tombol */
   height: 50px; /* Tinggi tombol */
+  margin-top: 20px;
 }
 
 /* Gaya teks di bawah tombol */

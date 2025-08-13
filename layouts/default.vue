@@ -1,10 +1,11 @@
 <template>
-  <div class="main-layout-wrapper">
-    <LayoutNavbar />
-    <main class="main-content-scroll-area">
-      <NuxtPage />
-    </main>
-  </div>
+    <div class="main-layout-wrapper">
+      <LayoutNavbar />
+      <main class="main-content-scroll-area">
+        <NuxtPage />
+      </main>
+      <LayoutFooter />
+    </div>
 </template>
 
 <script setup>

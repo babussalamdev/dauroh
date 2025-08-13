@@ -10,7 +10,7 @@
 
       <!-- Pindahkan JABODETABEK ke sebelah kiri -->
       <div class="d-flex align-items-center me-auto">
-        <a href="#" class="nav-link text-dark-custom me-3"><i class="bi bi-geo-alt me-1"></i> JABODETABEK</a>
+        <a href="#" class="btn btn-primary text-dark-custom me-3" bgClass="bg-info-light"><i class="bi bi-geo-alt me-1"></i> JABODETABEK</a>
       </div>
 
       <!-- Sisanya tetap di sebelah kanan -->
