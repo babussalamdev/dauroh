@@ -1,75 +1,71 @@
 <template>
-  <div class="container mt-5" style="height: 300px">
-    <TopCarousel />
-  </div>
-  <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Lagi tayang</h2>
-      <a href="#" class="btn btn-primary" bgClass="bg-info-light"
-        >Lihat semua ></a
-      >
-    </div>
+  <div class="container mt-1">
     <div>
-      <PosterCarousel />
+      <TopCarousel />
     </div>
-    <div style="height: 50px"></div>
-  </div>
-  <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Coming Soon</h2>
-      <a href="#" class="btn btn-primary" bgClass="bg-info-light"
-        >Lihat semua ></a
-      >
+
+    <div class="mt-1">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Lagi tayang</h2>
+        <a href="#" class="btn btn-primary">Lihat semua ></a>
+      </div>
+      <div class="mb-0">
+        <PosterCarousel />
+      </div>
     </div>
-  </div>
-  <div><ComingSoonCarousel /></div>
-  <div style="height: 50px"></div>
-  <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Promo</h2>
-      <a href="#" class="btn btn-primary" bgClass="bg-info-light"
-        >Lihat semua ></a
-      >
+
+    <div class="mt-1">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Coming Soon</h2>
+        <a href="#" class="btn btn-primary">Lihat semua ></a>
+      </div>
+      <div class="mb-0">
+        <ComingSoonCarousel />
+      </div>
     </div>
-    <div>
-      <PromoCarousel />
+
+    <div class="mt-1">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Promo</h2>
+        <a href="#" class="btn btn-primary">Lihat semua ></a>
+      </div>
+      <div class="mb-0">
+        <PromoCarousel />
+      </div>
     </div>
-    <div style="height: 50px"></div>
-  </div>
-  <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Yuk, nyemil di m.food</h2>
-      <a href="#" class="btn btn-primary" bgClass="bg-info-light"
-        >Lihat semua ></a
-      >
+
+    <div class="mt-1">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Yuk, nyemil di m.food</h2>
+        <a href="#" class="btn btn-primary">Lihat semua ></a>
+      </div>
+      <div class="mb-0">
+        <FoodBanner />
+      </div>
     </div>
-    <div>
-      <FoodBanner />
+
+    <div class="mt-1">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Cari tau studio XXI, yuk!</h2>
+      </div>
+      <div class="mb-0">
+        <Studio />
+      </div>
     </div>
-    <div style="height: 50px"></div>
-  </div>
-  <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Cari tau studio XXI, yuk!</h2>
+
+    <div class="mt-1">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="mb-0">Cari tau studio XXI, yuk!</h2>
+      </div>
+      <div class="mb-0"> 
+        <BottomBanner />
+      </div>
     </div>
-    <div>
-      <Studio />
-    </div>
-    <div style="height: 50px"></div>
-  </div>
-  <div class="container mt-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2 class="mb-0">Cari tau studio XXI, yuk!</h2>
-    </div>
-    <div>
-      <BottomBanner />
-    </div>
-    <div style="height: 50px"></div>
   </div>
 </template>
 
 <script setup>
-// Import komponen FilmCarousel dari folder film
+// Bagian script kamu tidak perlu diubah sama sekali
 import ComingSoonCarousel from "../film/ComingSoonCarousel.vue";
 import PosterCarousel from "../film/PosterCarousel.vue";
 import Studio from "../film/Studio.vue";
@@ -79,4 +75,19 @@ import TopCarousel from "../film/TopCarousel.vue";
 import PromoCarousel from "../film/PromoCarousel.vue";
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Media queries untuk tampilan responsif */
+@media (max-width: 375px) {
+  .movie-card-wrapper {
+    flex: 0 0 50%; /* 2 kolom pada perangkat mobile */
+    max-width: 50%;
+  }
+}
+
+@media (min-width: 1280px) {
+  .movie-card-wrapper {
+    flex: 0 0 25%; /* 4 kolom pada perangkat desktop */
+    max-width: 25%;
+  }
+}
+</style>

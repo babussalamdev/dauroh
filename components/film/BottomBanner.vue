@@ -1,8 +1,13 @@
 <template>
   <div class="card text-bg-dark" style="width:1500px">
     <img :src="cityRainImage" class="card-img" alt="City Rain">
-    <div class="card-img-overlay">
-      <p class="card-text fw-bold" >Download m.tix dan nikmati semua fitur dengan maksimal!</p>
+      <div class="card-img-overlay d-flex flex-column justify-content-center   p-3">
+      <p class="card-text fw-bold" >Download m.tix dan nikmati semua fitur dengan maksimal!
+        <a href="#" class="btn btn-primary rounded-pill px-4 ">
+          Download Sekarang
+        </a>
+      </p>
+        
     </div>
   </div>
 </template>

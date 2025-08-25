@@ -1,4 +1,5 @@
 <template>
+  <div class="container mt-5">
   <div 
     id="posterCarousel"
     class="carousel slide carousel-dark"
@@ -12,8 +13,8 @@
         :key="chunkIndex"
         :class="['carousel-item', { 'active': chunkIndex === 0 }]"
       >
-        <div class="row g-3 justify-content-center">
-          <div v-for="(movie, index) in chunk" :key="index" class="movie-card-wrapper">
+        <div class="row g-3 justify-content-center align-items-center">
+          <div v-for="(movie, index) in chunk" :key="index" class="col-6 col-md-3 mb-4">
             <div class="movie-card">
               <img :src="movie.poster" class="img-fluid rounded-lg" :alt="movie.title">
               <div class="overlay p-2">
@@ -49,16 +50,15 @@
       </button>
     </template>
   </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-// Import gambar lokal
 import cityRainImage from '~/assets/img/city-rain.jpg';
 
 const isHovered = ref(false);
 
-// Data dummy untuk film
 const movies = ref([
   { id: 1, title: 'Film 1', genre: 'Aksi', poster: cityRainImage },
   { id: 2, title: 'Film 2', genre: 'Drama', poster: cityRainImage },
@@ -70,7 +70,6 @@ const movies = ref([
   { id: 8, title: 'Film 8', genre: 'Horror', poster: cityRainImage },
 ]);
 
-// Membagi array film menjadi potongan-potongan (chunks) untuk setiap slide
 const movieChunks = computed(() => {
   const chunkSize = 4;
   const chunks = [];
@@ -85,13 +84,14 @@ const movieChunks = computed(() => {
 /* Style untuk container carousel */
 .carousel {
   position: relative;
-  padding: 0px; /* Beri ruang di kiri-kanan untuk tombol */
 }
 
 /* Style untuk wrapper carousel inner */
 .carousel-inner {
   overflow: visible;
-  padding: 10px;
+  padding: 60px;
+  align-items: center;
+  overflow-x: hidden;
 }
 
 /* Style untuk kartu film */
@@ -111,10 +111,10 @@ const movieChunks = computed(() => {
 
 /* Style untuk gambar film */
 .movie-card img {
-  width: 100%; /* Gambar mengisi penuh lebar kartu */
-  height: auto;  /* Biarkan tinggi menyesuaikan otomatis */
-  aspect-ratio: 2 / 3; /* Jaga proporsi poster (lebar 2, tinggi 3) */
-  object-fit: cover;   /* Pastikan gambar menutupi area tanpa distorsi */
+  width: 100%;
+  height: auto;
+  aspect-ratio: 2 / 3;
+  object-fit: cover;
   display: block;
 }
 
@@ -126,13 +126,10 @@ const movieChunks = computed(() => {
 /* Style untuk overlay teks */
 .overlay {
   position: absolute;
-  bottom: 0;
-  left: 0;
   width: 100%;
   background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0));
   color: white;
-  padding: 10px;
-  opacity: 0; /* Teks overlay tersembunyi secara default */
+  opacity: 0;
   transition: opacity 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -147,8 +144,8 @@ const movieChunks = computed(() => {
 .overlay .title {
   font-size: 0.9rem;
   font-weight: bold;
-  margin-bottom: 0;
 }
+
 .overlay .subtitle {
   font-size: 0.8rem;
   color: #ccc;
@@ -168,21 +165,24 @@ const movieChunks = computed(() => {
   transform: translateY(-50%);
 }
 
+
 .carousel-control-prev {
-  left: 0; /* Posisikan di dalam area padding */
+  /* ABSOLUTE BIAR PAS SAMA CONTAINER */
+  position:absolute; 
 }
+
 .carousel-control-next {
-  right: 0; /* Posisikan di dalam area padding */
+  position:absolute;
 }
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: invert(1) grayscale(100);
 }
+
+/* Styling untuk setiap card */
 .movie-card-wrapper {
-  /* Tentukan lebar setiap kartu di sini */
-  /* flex: 0 0 auto; agar tidak menyusut/melebar */
-  /* width: 23%; sedikit kurang dari 25% untuk memberi ruang bagi 'gap' */
   flex: 0 0 100%;
-  max-width: 250px; /* Batasi lebar maksimal jika perlu */
+  max-width: 250px;
+  margin: auto;
 }
 </style>

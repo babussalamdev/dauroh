@@ -21,11 +21,10 @@ useHead({
 <style>
 /* CSS GLOBAL */
 :root {
-  --color-primary: #004754; /* Warna merah marun khas XXI */
+  --color-primary: #004754;
   --color-text-dark: #374151;
   --color-text-muted: #6B7280;
   --color-card-bg: #FFFFFF;
-
   --navbar-height: 60px;
 }
 

@@ -1,7 +1,7 @@
 <template>
-  <button :class="['btn', bgClass, 'd-flex', 'flex-column', 'align-items-center', 'p-3']" @click="handleClick">
+  <button :class="['btn', bgClass, 'flex-column', 'align-items-center', 'p-3']" @click="handleClick" :style="buttonStyle">
     <component :is="icon" class="hero-icon mb-2" :style="{ fontSize: iconSize + 'px' }" />
-    <span class="ms-2" :style="{ cursor: 'pointer' }">{{ label }}</span> <!-- Menambahkan pointer cursor pada label -->
+    <span class="ms-2" :style="{ cursor: 'pointer' }">{{ label }}</span>
   </button>
 </template>
 
@@ -15,6 +15,14 @@ defineProps({
     default: 50, // Ukuran default ikon, bisa disesuaikan
   }
 })
+
+// Menambahkan styling dinamis untuk ukuran tombol
+const buttonStyle = {
+  width: '70%',  // Membuat tombol lebih responsif, mengikuti lebar container
+  height: 'auto',  // Membuat tinggi tombol otomatis menyesuaikan konten
+  maxWidth: '100px',  // Ukuran maksimal untuk tombol
+  padding: '1px'  // Menjaga jarak padding tombol
+}
 </script>
 
 <style scoped>
@@ -30,10 +38,9 @@ button {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  padding: 20px;
   transition: background-color 0.3s ease;
-  width: 100px; /* Lebar tombol */
-  height: 100px; /* Tinggi tombol */
+  width: 30%;  /* Menyesuaikan lebar tombol */
+  height: 30%; /* Membuat tinggi tombol otomatis sesuai konten */
 }
 
 button:hover {

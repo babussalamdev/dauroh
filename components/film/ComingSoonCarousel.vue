@@ -1,4 +1,5 @@
 <template>
+  <div class="container mt-5">
   <div 
     id="comingSoonCarousel" 
     class="carousel slide carousel-dark" 
@@ -13,7 +14,7 @@
         :class="['carousel-item', { 'active': chunkIndex === 0 }]"
       >
         <div class="row g-3 justify-content-center">
-          <a href="#" v-for="movie in chunk" :key="movie.id" class="movie-card-wrapper">
+          <a href="#" v-for="movie in chunk" :key="movie.id" class="col-6 col-md-3 mb-4">
             <div class="card movie-card rounded-lg overflow-hidden h-100">
               <div class="position-relative">
                 <img :src="movie.poster" class="card-img-top" :alt="movie.title">
@@ -38,7 +39,7 @@
         class="carousel-control-prev"
         :class="{ 'd-none': !isHovered }"
         type="button"
-        data-bs-target="#posterCarousel"
+        data-bs-target="#comingSoonCarousel"
         data-bs-slide="prev"
       >
         <span class="carousel-control-prev-icon" aria-hidden="true"></span>
@@ -48,7 +49,7 @@
         class="carousel-control-next"
         :class="{ 'd-none': !isHovered }"
         type="button"
-        data-bs-target="#posterCarousel"
+        data-bs-target="#comingSoonCarousel"
         data-bs-slide="next"
       >
         <span class="carousel-control-next-icon" aria-hidden="true"></span>
@@ -56,13 +57,16 @@
       </button>
     </template>
   </div>
+  </div>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
-// PENTING: Impor gambar dari assets/ sebagai module
 import cityRainImage from '~/assets/img/city-rain.jpg';
 
+const isHovered = ref(false);
+
+// Data film tetap sama
 const movies = ref([
   { id: 1, title: 'Tinggal Meninggal', poster: cityRainImage, topOverlay: 'XXI Telah Dibuka', date: 'Di Bioskop 14 Agustus 2025' },
   { id: 2, title: 'Pamali', poster: cityRainImage, topOverlay: 'Advance ticket sales', date: '7 Agustus 2025 di Bioskop' },
@@ -74,10 +78,8 @@ const movies = ref([
   { id: 8, title: 'Movie 8', poster: cityRainImage, topOverlay: 'Advance ticket sales', date: '7 Agustus 2025 di Bioskop' },
 ]);
 
-const isHovered = ref(false);
-
 const movieChunks = computed(() => {
-  const chunkSize = 4; // Mengubah ukuran slide menjadi 4
+  const chunkSize = 4;
   const chunks = [];
   for (let i = 0; i < movies.value.length; i += chunkSize) {
     chunks.push(movies.value.slice(i, i + chunkSize));
@@ -85,79 +87,91 @@ const movieChunks = computed(() => {
   return chunks;
 });
 </script>
+
 <style scoped>
-/* Wrapper utama carousel, ini jadi patokan posisi tombol */
+/* Udah pas ini */
 .carousel {
   position: relative;
-  /* Beri sedikit ruang di kiri-kanan agar tombol tidak terlalu mepet */
-  padding: 0 50px; 
 }
+
+/* Beri ruang agar bayangan kartu tidak terpotong */
 .carousel-inner {
-  overflow: hidden;
-  padding: 10px;
-} /* Kembalikan ke default Bootstrap agar rapi */
-/* Style untuk kartu film dan overlay */
-.movie-card {
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: visible;
+  padding: 60px;
+  overflow-x: hidden;
+
+}
+
+/* Wrapper <a> tidak perlu style khusus, biarkan Bootstrap yg mengatur */
+/* Kita styling langsung card-nya */
+.card.movie-card {
+  box-shadow: 0 4px 10px #b924241a;
   transition: transform 0.3s ease;
+  border: none; /* Hilangkan border default card */
+  
 }
-.movie-card:hover {
-  transform: translateY(-5px); /* Efek naik saat hover */
+
+.card.movie-card:hover {
+  transform: translateY(-5px);
 }
-.movie-card img {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
+
+.card.movie-card img {
+  width: 100%;
+  aspect-ratio: 2 / 3; /* Ini kunci agar gambar selalu proporsional */
+  object-fit: cover;
 }
+
 .overlay-top {
-    position: absolute;
-    top: 10px;
-    left: 10px;
-  background-color: #0d6efd; /* Gunakan warna primary Bootstrap */
-    color: white;
-    padding: 4px 8px;
-    border-radius: 5px;
-    font-size: 0.75rem;
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #0d6efd;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.75rem;
   font-weight: bold;
 }
+
 .card-body {
-  flex-grow: 1; /* Pastikan card-body mengisi sisa ruang */
-  display: flex;
-  flex-direction: column;
+  flex-grow: 1;
 }
+
 .card-body .btn {
   font-size: 0.8rem;
+  padding: 0.25rem 0.75rem; /* Ukuran tombol lebih pas */
 }
+
+/* Pindahkan tombol keluar dari area konten */
 .carousel-control-prev,
 .carousel-control-next {
   width: 50px;
   height: 50px;
-  background-color: rgba(255, 255, 255, 0.9);
+  background-color: rgba(255, 255, 255, 0.7);
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  opacity: 0.8; /* Sembunyikan secara default */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  opacity: 0.8;
   transition: opacity 0.3s ease;
-  top: 50%; /* Posisikan 50% dari atas container */
-  transform: translateY(-50%); /* Geser ke atas 50% dari tinggi TOMBOL itu sendiri */
+  top: 50%;
+  transform: translateY(-50%);
 }
+
 .carousel-control-prev {
-  left: 30px; 
+  position: absolute;
 }
+
 .carousel-control-next {
-  right: 30px;
+  position: absolute;
 }
+
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: invert(1) grayscale(100);
 }
+
 .movie-card-wrapper {
-  /* Tentukan lebar setiap kartu di sini */
-  /* flex: 0 0 auto; agar tidak menyusut/melebar */
-  /* width: 23%; sedikit kurang dari 25% untuk memberi ruang bagi 'gap' */
   flex: 0 0 100%;
-  max-width: 250px; /* Batasi lebar maksimal jika perlu */
+  max-width: 250px;
+  margin: auto;
 }
 </style>

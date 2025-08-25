@@ -1,9 +1,12 @@
 <template>
-  <footer class="footer mt-5 p-5 border-top">
+  <footer class="footer mt-5 py-5 border-top">
     <div class="container">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="d-flex align-items-center">
-          <a class="navbar-brand fw-bold me-5" href="#">
+      <!-- BAGIAN ATAS: Logo, Social Media, dan Tombol Opsi -->
+      <div class="d-flex flex-column flex-lg-row justify-content-between align-items-center gap-4 mb-4">
+        
+        <!-- Sisi Kiri: Logo & Social Media -->
+        <div class="d-flex flex-column flex-sm-row align-items-center gap-4">
+          <a class="navbar-brand fw-bold" href="#">
             <span class="fs-4 text-dark-custom">Cinema</span> <span class="fs-4 text-primary">XXI</span>
           </a>
           <div class="d-flex gap-3">
@@ -14,6 +17,7 @@
           </div>
         </div>
 
+        <!-- Sisi Kanan: Bahasa & Tema -->
         <div class="d-flex align-items-center gap-3">
           <div class="dropdown">
             <button class="btn btn-outline-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -23,14 +27,16 @@
               <li><a class="dropdown-item" href="#">English</a></li>
             </ul>
           </div>
-          <button class="btn btn-outline-secondary rounded-circle"><i class="bi bi-sun"></i></button>
+          <button class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-sun"></i></button>
         </div>
+
       </div>
 
       <hr class="my-4">
 
+      <!-- BAGIAN BAWAH: Link Navigasi & Copyright -->
       <div class="text-center">
-        <ul class="list-unstyled d-flex justify-content-center gap-4 fw text-dark-custom mb-3">
+        <ul class="list-unstyled d-flex flex-wrap justify-content-center gap-2 gap-md-4 mb-3">
           <li><a href="#" class="text-decoration-none">Tentang kami</a></li>|
           <li><a href="#" class="text-decoration-none">FAQ</a></li>|
           <li><a href="#" class="text-decoration-none">Syarat penggunaan</a></li>|
@@ -40,7 +46,7 @@
           <li><a href="#" class="text-decoration-none">Hubungi kami</a></li>
         </ul>
         <p class="text-muted-custom small">
-          Copyrights © 
+          Copyrights © {{ new Date().getFullYear() }} Cinema XXI
         </p>
       </div>
     </div>
@@ -55,10 +61,6 @@
 .footer {
   background-color: #F8FAFC;
   border-top: 1px solid #e9ecef;
-}
-.footer a {
-    color: var(--color-text-dark) !important;
-    transition: color 0.2s ease;
 }
 .footer a:hover {
     color: var(--color-primary) !important;
