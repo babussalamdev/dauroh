@@ -2,29 +2,25 @@
   <section class="hero-section">
     <div class="container text-center">
       <h1 class="display-5 fw-bold mb-5" style="font-family: 'Montserrat', sans-serif;">
-        Feel the memories beyond
+        Dauroh <span class="text-primary">Babussalam</span>
       </h1>
       <div class="search-bar-hero mx-auto" style="max-width: 600px;">
         <SearchBar />
       </div>
 
       <!-- Tombol Wrapper -->
-      <div class="button-container mt-1">
+      <div class="button-container">
         <div class="button-item" >
-          <HeroButton :icon="BioskopIcon" bgClass="btn-hero-custom" />
-          <p class="mt-1">Bioskop</p>
+          <HeroButton :icon="QrCode" bgClass="btn-hero-custom" />
+          <p class="mt-1">QR Code</p>
         </div>
         <div class="button-item">
-          <HeroButton :icon="FilmIcon" bgClass="btn-hero-custom" />
-          <p class="mt-1">Film</p>
+          <HeroButton :icon="JadwalIcon" bgClass="btn-hero-custom" />
+          <p class="mt-1">Jadwal</p>
         </div>
         <div class="button-item">
-          <HeroButton :icon="FoodIcon" bgClass="btn-hero-custom" />
-          <p class="mt-1">Makanan</p>
-        </div>
-        <div class="button-item">
-          <HeroButton :icon="SewaIcon" bgClass="btn-hero-custom" />
-          <p class="mt-1">Sewa Tempat</p>
+          <HeroButton :icon="BoothIcon" bgClass="btn-hero-custom" />
+          <p class="mt-1">Sewa Booth</p>
         </div>
       </div>
     </div>
@@ -34,10 +30,9 @@
 <script setup>
 import SearchBar from '~/components/common/SearchBar.vue';
 import HeroButton from '~/components/button/HeroButton.vue';
-import BioskopIcon from '~/components/icons/BioskopIcon.vue';
-import FilmIcon from '~/components/icons/FilmIcon.vue';
-import FoodIcon from '~/components/icons/FoodIcon.vue';
-import SewaIcon from '~/components/icons/SewaIcon.vue';
+import QrCode from '~/components/icons/QrIcon.vue';
+import JadwalIcon from '~/components/icons/JadwalIcon.vue';
+import BoothIcon from '~/components/icons/BoothIcon.vue';
 </script>
 
 <style scoped>
@@ -58,9 +53,9 @@ import SewaIcon from '~/components/icons/SewaIcon.vue';
 
 /* Tombol Kotak */
 :deep(.btn-hero-custom) {
-  background-color: #f8f9fa;
+  background-color: #daecff;
   border: 1.5px solid #79bcff;
-  border-radius: 0.5rem; /* Sudut tumpul sedikit lebih besar agar pas */
+  border-radius: 1rem; /* Sudut tumpul sedikit lebih besar agar pas */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   transition: all 0.2s ease-in-out;
   display:flexbox;
@@ -74,14 +69,14 @@ import SewaIcon from '~/components/icons/SewaIcon.vue';
 }
 
 :deep(.hero-icon) {
-  font-size: 20px;
+  font-size: 50px;
 }
 
 .button-container {
   padding-top: 1%;
   display: flex;
   justify-content: center; /* Untuk menyejajarkan tombol di tengah */
-  gap: -10px; /* Memberikan jarak antar tombol */
+  /*gap: -10px; /* Memberikan jarak antar tombol */
 }
 
 .button-item {

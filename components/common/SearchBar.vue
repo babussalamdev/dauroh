@@ -3,7 +3,7 @@
   <div class="search-bar">
     <!-- Pindahkan ikon ke dalam input-group -->
     <i class="search-icon bi-search"></i>
-    <input type="text" class="form-control" placeholder="Cari film atau bioskop..." />
+    <input type="text" class="form-control" placeholder="Cari..." />
   </div>
 </template>
 

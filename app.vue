@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 useHead({
-  titleTemplate: '%s - Cinema XXI',
+  titleTemplate: '%s - Dauroh',
   meta: [
     { name: 'description', content: 'Web replika Cinema XXI' }
   ],
@@ -34,7 +34,7 @@ body {
   padding: 0;
   box-sizing: border-box;
   /* Background gradasi */
-  background: linear-gradient(180deg, #F9FAFB 0%, #E2E6E9 100%) !important;
+  background: linear-gradient(180deg, #3296fa 100%, #0a8cef 100%);
   color: var(--color-text-dark);
   overflow-x: hidden;
 }

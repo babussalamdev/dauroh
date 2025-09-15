@@ -7,13 +7,14 @@
         <!-- Sisi Kiri: Logo & Social Media -->
         <div class="d-flex flex-column flex-sm-row align-items-center gap-4">
           <a class="navbar-brand fw-bold" href="#">
-            <span class="fs-4 text-dark-custom">Cinema</span> <span class="fs-4 text-primary">XXI</span>
+            <span class="fs-4 text-dark-custom">Dauroh</span> <span class="fs-4 text-primary">Babussalam</span>
           </a>
           <div class="d-flex gap-3">
             <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-instagram"></i></a>
-            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-tiktok"></i></a>
-            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-twitter"></i></a>
+            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-whatsapp"></i></a>
+            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-youtube"></i></a>
             <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-facebook"></i></a>
+            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-telegram"></i></a>
           </div>
         </div>
 
@@ -46,7 +47,7 @@
           <li><a href="#" class="text-decoration-none">Hubungi kami</a></li>
         </ul>
         <p class="text-muted-custom small">
-          Copyrights © {{ new Date().getFullYear() }} Cinema XXI
+          Copyrights © {{ new Date().getFullYear() }} Babussalam
         </p>
       </div>
     </div>

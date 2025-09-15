@@ -1,6 +1,6 @@
 <template>
   <button :class="['btn', bgClass, 'flex-column', 'align-items-center', 'p-3']" @click="handleClick" :style="buttonStyle">
-    <component :is="icon" class="hero-icon mb-2" :style="{ fontSize: iconSize + 'px' }" />
+    <component :is="icon" class="hero-icon mb-0" :style="{ fontSize: iconSize + 'px' }" />
     <span class="ms-2" :style="{ cursor: 'pointer' }">{{ label }}</span>
   </button>
 </template>
@@ -19,9 +19,9 @@ defineProps({
 // Menambahkan styling dinamis untuk ukuran tombol
 const buttonStyle = {
   width: '70%',  // Membuat tombol lebih responsif, mengikuti lebar container
-  height: 'auto',  // Membuat tinggi tombol otomatis menyesuaikan konten
+  height: '70%',  // Membuat tinggi tombol otomatis menyesuaikan konten
   maxWidth: '100px',  // Ukuran maksimal untuk tombol
-  padding: '1px'  // Menjaga jarak padding tombol
+  padding: 'px'  // Menjaga jarak padding tombol
 }
 </script>
 

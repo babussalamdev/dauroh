@@ -1,0 +1,130 @@
+<template>
+  <div class="user-dashboard bg-light">
+    <div class="container py-5">
+      <div v-if="authStore.isLoggedIn">
+        <div class="row g-4">
+          <!-- ====================================================== -->
+          <!-- KOLOM KIRI: DAFTAR DAUROH -->
+          <!-- ====================================================== -->
+          <div class="col-lg-8">
+            <!-- Kartu Dauroh yang Akan Datang -->
+            <div class="card shadow-sm mb-4">
+              <div class="card-header bg-white py-3"> 
+                <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Dauroh yang Akan Datang</h5>
+              </div>
+              <div class="card-body">
+                <!-- Mengambil data dari userStore -->
+                <div v-if="userStore.getUpcomingDauroh.length > 0">
+                  <div v-for="movie in userStore.getUpcomingDauroh" :key="movie.id" class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                    <img :src="movie.poster" class="rounded shadow-sm" style="width: 70px; height: 100px; object-fit: cover;" :alt="movie.title">
+                    <div class="ms-3 flex-grow-1">
+                      <h6 class="fw-bold mb-1">{{ movie.title }}</h6>
+                      <p class="text-muted mb-1 small">{{ movie.genre }}</p>
+                      <span class="badge bg-success">Terdaftar</span>
+                    </div>
+                    <button class="btn btn-primary btn-sm">Lihat E-Tiket</button>
+                  </div>
+                </div>
+                <div v-else class="text-center text-muted py-4">
+                  <p>Anda belum terdaftar di Dauroh manapun.</p>
+                  <NuxtLink to="/" class="btn btn-primary">Cari Dauroh Sekarang</NuxtLink>
+                </div>
+              </div>
+            </div>
+
+            <!-- Kartu Riwayat Dauroh -->
+            <div class="card shadow-sm">
+              <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Riwayat Dauroh</h5>
+              </div>
+              <div class="card-body">
+                <!-- Mengambil data dari userStore -->
+                <div v-for="movie in userStore.getHistoryDauroh" :key="movie.id" class="d-flex align-items-center mb-3 pb-3 border-bottom">
+                  <img :src="movie.poster" class="rounded shadow-sm" style="width: 70px; height: 100px; object-fit: cover;" :alt="movie.title">
+                  <div class="ms-3 flex-grow-1">
+                    <h6 class="fw-bold mb-1">{{ movie.title }}</h6>
+                    <p class="text-muted mb-1 small">{{ movie.genre }}</p>
+                    <span class="badge bg-secondary">Selesai</span>
+                  </div>
+                  <button class="btn btn-outline-secondary btn-sm">Unduh Sertifikat</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ====================================================== -->
+          <!-- KOLOM KANAN: PROFIL & BANTUAN -->
+          <!-- ====================================================== -->
+          <div class="col-lg-4">
+            <div class="card shadow-sm mb-4">
+              <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="bi bi-person-fill me-2"></i>Profil Saya</h5>
+              </div>
+              <ul class="list-group list-group-flush">
+                <li class="list-group-item d-flex align-items-center">
+                  <i class="bi bi-person-circle fs-2 me-3 text-primary"></i>
+                  <div>
+                    <h6 class="fw-bold mb-0">{{ authStore.userName }}</h6>
+                    <span class="text-muted small">{{ authStore.user?.email }}</span>
+                  </div>
+                </li>
+                <li class="list-group-item">
+                  <small class="text-muted">Tanggal Bergabung</small>
+                  <p class="fw-bold mb-0">10 September 2025</p>
+                </li>
+              </ul>
+              <div class="card-body">
+                <button class="btn btn-outline-secondary w-100">Edit Profil</button>
+              </div>
+            </div>
+
+            <div class="card shadow-sm">
+               <div class="card-header bg-white py-3">
+                <h5 class="mb-0"><i class="bi bi-question-circle-fill me-2"></i>Bantuan</h5>
+              </div>
+               <div class="list-group list-group-flush">
+                <a href="#" class="list-group-item list-group-item-action">Pusat Bantuan</a>
+                <a href="#" class="list-group-item list-group-item-action">Hubungi Kami</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+// // pages/dashboard.vue
+import { useAuthStore } from '~/stores/auth';
+import { useUserStore } from '~/stores/user'; // Menggunakan store user yang baru
+
+const authStore = useAuthStore();
+const userStore = useUserStore(); // Gunakan userStore
+
+// "Penjaga pintu" tetap aktif
+definePageMeta({
+  middleware: 'auth'
+});
+
+/*
+// NANTI (Dengan Backend): Hapus komentar di bawah ini
+import { onMounted } from 'vue';
+onMounted(() => {
+  // Panggil action untuk mengambil data Dauroh milik user dari server
+  userStore.fetchMyDauroh();
+})
+*/
+</script>
+
+<style scoped>
+.user-dashboard {
+  min-height: calc(100vh - 56px);
+}
+.card {
+  border: none;
+}
+.card-header {
+  border-bottom: 0;
+}
+</style>

@@ -1,147 +1,132 @@
 <template>
-  <div
-    id="promoCarousel"
-    class="carousel slide carousel-dark"
-    data-bs-ride="carousel"
-    @mouseenter="isHovered = true"
-    @mouseleave="isHovered = false"
-  >
-    <div class="carousel-inner">
-      <div
-        v-for="(chunk, chunkIndex) in movieChunks"
-        :key="chunkIndex"
-        :class="['carousel-item', { 'active': chunkIndex === 0 }]"
-      >
-        <div class="row g-3 justify-content-center">
-           <a href="#" v-for="(movie, index) in chunk" :key="movie.id" class="col-12 col-md-4">
-           <div class="movie-card-container d-flex justify-content-center align-items-center">
-            <div class="movie-card">
-              <img :src="movie.poster" class="img-fluid rounded-lg" :alt="movie.title">
-              <div class="overlay p-2">
-                <p class="title fw-bold mb-1">{{ movie.overlayTitle }}</p>
-                <p class="subtitle text-muted mb-0">{{ movie.overlaySubtitle }}</p>
+  <div class="container mt-4">
+    <!-- Form Tambah Promo sudah dihapus dari sini -->
+
+    <div
+      id="promoCarousel"
+      class="carousel slide carousel-dark"
+      data-bs-ride="carousel"
+      @mouseenter="isHovered = true"
+      @mouseleave="isHovered = false"
+    >
+      <div class="carousel-inner">
+        <div
+          v-for="(chunk, chunkIndex) in daurohChunks"
+          :key="chunkIndex"
+          :class="['carousel-item', { 'active': chunkIndex === 0 }]"
+        >
+          <div class="row g-3 justify-content-center">
+            <a href="#" v-for="(dauroh) in chunk" :key="dauroh.id" class="col-12 col-md-4 text-decoration-none">
+              <div class="dauroh-card-container d-flex justify-content-center align-items-center">
+                <div class="dauroh-card">
+                  <img :src="dauroh.poster" class="img-fluid rounded-lg" :alt="dauroh.title">
+                  <div class="overlay p-2">
+                    <p class="title fw-bold mb-1 text-white">{{ dauroh.title }}</p>
+                    <p class="subtitle text-white-50 mb-0">{{ dauroh.genre }}</p>
+                    <!-- Tombol Edit & Hapus sudah dihapus dari sini -->
+                  </div>
+                </div>
               </div>
-              </div>
-            </div>
-          </a>
+            </a>
+          </div>
         </div>
       </div>
-    </div>
 
-    <template v-if="movieChunks.length > 1">
-      <button
-        class="carousel-control-prev"
-        :class="{ 'd-none': !isHovered }"
-        type="button"
-        data-bs-target="#promoCarousel"
-        data-bs-slide="prev"
-      >
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-      </button>
-      <button
-        class="carousel-control-next"
-        :class="{ 'd-none': !isHovered }"
-        type="button"
-        data-bs-target="#promoCarousel"
-        data-bs-slide="next"
-      >
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-      </button>
-    </template>
+      <template v-if="daurohChunks.length > 1">
+        <!-- Tombol navigasi tidak diubah -->
+        <button class="carousel-control-prev" :class="{ 'd-none': !isHovered }" type="button" data-bs-target="#promoCarousel" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" :class="{ 'd-none': !isHovered }" type="button" data-bs-target="#promoCarousel" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </template>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-// PENTING: Impor gambar dari assets/ sebagai module
-import cityRainImage from '~/assets/img/city-rain.jpg';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { useDaurohStore } from '~/stores/dauroh';
 
 const isHovered = ref(false);
-const isMobile = ref(false); // Variabel reaktif untuk melacak mode HP
+const isMobile = ref(false);
+const daurohStore = useDaurohStore();
 
-const movies = ref([
-  // Data film dummy dengan semua poster disamakan
-  { id: 1, title: 'Movie 1', poster: cityRainImage},
-  { id: 2, title: 'Movie 2', poster: cityRainImage },
-  { id: 3, title: 'Movie 3', poster: cityRainImage},
-  { id: 4, title: 'Movie 4', poster: cityRainImage},
-  { id: 5, title: 'Movie 5', poster: cityRainImage},
-  { id: 6, title: 'Movie 6', poster: cityRainImage},
-]);
+// Komponen ini tetap mengambil data dari store untuk ditampilkan
+const daurohChunks = computed(() => daurohStore.promoDaurohChunks(isMobile.value));
 
-
-
-const movieChunks = computed(() => {
-  // Mengubah ukuran slide secara dinamis berdasarkan ukuran layar
-  const chunkSize = isMobile.value ? 1 : 3;
-  const chunks = [];
-  for (let i = 0; i < movies.value.length; i += chunkSize) {
-    chunks.push(movies.value.slice(i, i + chunkSize));
-  }
-  return chunks;
-});
+// Logika untuk CRUD (newTitle, handleAdd, handleUpdate, handleDelete) sudah dihapus
 
 const handleResize = () => {
-  isMobile.value = window.innerWidth <= 800; // Definisikan lebar layar HP
+  isMobile.value = window.innerWidth <= 800;
 };
 
 onMounted(() => {
   window.addEventListener('resize', handleResize);
-  handleResize(); // Panggil saat pertama kali dimuat
+  handleResize();
 });
 
 onBeforeUnmount(() => {
   window.removeEventListener('resize', handleResize);
 });
-
-
 </script>
 
 <style scoped>
-/* Style untuk kartu film dan overlay */
-.movie-card {
-    position: sticky;
+/* CSS Anda tidak diubah, hanya bagian .actions yang tidak terpakai lagi */
+.dauroh-card {
+    position: relative; /* Diubah dari sticky */
     overflow: hidden;
     border-radius: 8px;
     transition: transform 0.3s ease;
     width: 100%;
-    height: auto;
+    height: 180px; /* Atur tinggi kartu menjadi lebih pendek */
+    display: flex;
     align-items: center;
+    justify-content: center;
+    background-color: #000;
 }
-.movie-card:hover {
+.dauroh-card:hover {
     transform: scale(1.05);
 }
-.movie-card img {
+.dauroh-card img {
     width: 100%;
-    height: auto;
-    object-fit: cover;
+    height: 100%; /* Buat gambar mengisi seluruh tinggi kartu */
+    object-fit: cover; /* Ini akan memotong gambar agar pas */
     display: block;
+    transition: filter 0.3s ease;
+}
+.dauroh-card:hover img {
+    filter: brightness(0.4);
 }
 .overlay {
     position: absolute;
     width: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), rgba(0,0,0,0));
+    bottom: 0;
     color: white;
     padding: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.dauroh-card:hover .overlay {
+  opacity: 1;
 }
 .overlay .title {
     font-size: 0.9rem;
 }
 .overlay .subtitle {
     font-size: 0.8rem;
-    color: #ff0000;
+    color: #ccc;
 }
-
-/* Style untuk carousel container */
+/* Style untuk .actions dihapus karena tidak terpakai */
 .carousel-inner {
   overflow: visible;
   padding: 60px;
   overflow-x: hidden;
 }
-
-
-/* Styling tombol navigasi */
 .carousel-control-prev,
 .carousel-control-next {
   width: 50px;
@@ -154,22 +139,14 @@ onBeforeUnmount(() => {
   top: 50%;
   transform: translateY(-50%);
 }
-
 .carousel-control-prev {
   position: absolute;
 }
-
 .carousel-control-next {
   position: absolute;
 }
-
 .carousel-control-prev-icon,
 .carousel-control-next-icon {
   filter: invert(1) grayscale(100);
-}
-.carousel-item-link {
-  text-decoration: none;
-  display: block;
-  transition: transform 0.3s ease;
 }
 </style>
