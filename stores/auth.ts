@@ -29,10 +29,11 @@ export const useAuthStore = defineStore('auth', {
       };
       
       const router = useRouter();
+      // --- PERUBAHAN DI SINI ---
       if (payload.role === 'admin') {
-        router.push('/admin');
+        router.push('/admin'); // Arahkan ke dasbor admin
       } else {
-        router.push('/dashboard');
+        router.push('/dashboard'); // Arahkan ke dasbor pengguna
       }
 
       /*

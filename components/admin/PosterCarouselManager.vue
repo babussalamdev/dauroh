@@ -5,20 +5,8 @@
       <button class="btn btn-success btn-sm" @click="openAddModal">+ Tambah Dauroh</button>
     </div>
     <div class="card-body">
-      <div v-if="daurohStore.isLoadingDaurohs" class="text-center">
-        <p>Memuat data...</p>
-      </div>
-      <div v-else class="table-responsive">
+      <div class="table-responsive">
         <table class="table table-striped table-hover align-middle">
-          <thead>
-            <tr>
-              <th scope="col">#ID</th>
-              <th scope="col">Poster</th>
-              <th scope="col">Judul</th>
-              <th scope="col">Genre</th>
-              <th scope="col" class="text-end">Aksi</th>
-            </tr>
-          </thead>
           <tbody>
             <tr v-for="dauroh in daurohStore.nowPlayingDauroh" :key="dauroh.id">
               <th scope="row">{{ dauroh.id }}</th>
@@ -27,11 +15,8 @@
               <td>{{ dauroh.genre }}</td>
               <td class="text-end">
                 <button class="btn btn-primary btn-sm me-2" @click="openUpdateModal(dauroh)">Edit</button>
-                <button class="btn btn-danger btn-sm" @click="handleDelete(dauroh.id)">Hapus</button>
+                <button class="btn btn-danger btn-sm" @click="openDeleteModal(dauroh)">Hapus</button>
               </td>
-            </tr>
-            <tr v-if="daurohStore.nowPlayingDauroh.length === 0">
-              <td colspan="5" class="text-center text-muted">Belum ada data Dauroh.</td>
             </tr>
           </tbody>
         </table>
@@ -39,99 +24,85 @@
     </div>
   </div>
 
-  <!-- Modal untuk Tambah/Edit Dauroh -->
-  <div v-if="showModal" class="modal fade show d-block" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ isEditing ? 'Edit Dauroh' : 'Tambah Dauroh Baru' }}</h5>
-          <button type="button" class="btn-close" @click="closeModal"></button>
-        </div>
-        <div class="modal-body">
-          <div class="mb-3">
-            <label for="daurohTitle" class="form-label">Judul Dauroh</label>
-            <input type="text" class="form-control" id="daurohTitle" v-model="editableDauroh.title">
-          </div>
-          <div class="mb-3">
-            <label for="daurohGenre" class="form-label">Genre/Kategori</label>
-            <input type="text" class="form-control" id="daurohGenre" v-model="editableDauroh.genre">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" @click="closeModal">Batal</button>
-          <button type="button" class="btn btn-primary" @click="handleSave">Simpan</button>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div v-if="showModal" class="modal-backdrop fade show"></div>
+  <AdminDaurohFormModal
+    v-if="showFormModal"
+    :show="showFormModal"
+    :is-editing="isEditing"
+    :dauroh="selectedDauroh"
+    @close="closeFormModal"
+    @save="handleSave"
+  />
+
+  <AdminDeleteConfirmationModal
+    v-if="showDeleteModal"  
+    :show="showDeleteModal"
+    :item-name="selectedDauroh ? selectedDauroh.title : ''"
+    @close="closeDeleteModal"
+    @confirm="confirmDelete"
+  />
 </template>
 
 <script setup>
-// // components/admin/PosterCarouselManager.vue
-import { ref, reactive, onMounted } from 'vue';
+// ... (script setup tidak ada perubahan) ...
+import { ref, onMounted } from 'vue';
 import { useDaurohStore } from '~/stores/dauroh';
+import AdminDaurohFormModal from '~/components/admin/AdminDaurohFormModal.vue';
+import AdminDeleteConfirmationModal from '~/components/admin/AdminDeleteConfirmationModal.vue';
 
 const daurohStore = useDaurohStore();
-const showModal = ref(false);
+const showFormModal = ref(false);
+const showDeleteModal = ref(false);
 const isEditing = ref(false);
-const editableDauroh = reactive({
-  id: null,
-  title: '',
-  genre: ''
-});
+const selectedDauroh = ref(null);
 
 onMounted(() => {
-  // Pastikan data film sudah ter-load saat komponen ini muncul
   if (daurohStore.nowPlayingDauroh.length === 0) {
-    daurohStore.fetchDaurohs();
+    // daurohStore.fetchDaurohs();
   }
 });
 
 const openAddModal = () => {
   isEditing.value = false;
-  editableDauroh.id = null;
-  editableDauroh.title = '';
-  editableDauroh.genre = '';
-  showModal.value = true;
+  // Saat menambah, kita kirim objek kosong, bukan null
+  selectedDauroh.value = { title: '', genre: '', poster: '' };
+  showFormModal.value = true;
 };
 
 const openUpdateModal = (dauroh) => {
   isEditing.value = true;
-  editableDauroh.id = dauroh.id;
-  editableDauroh.title = dauroh.title;
-  editableDauroh.genre = dauroh.genre;
-  showModal.value = true;
+  selectedDauroh.value = { ...dauroh };
+  showFormModal.value = true;
 };
 
-const closeModal = () => {
-  showModal.value = false;
+const closeFormModal = () => {
+  showFormModal.value = false;
 };
 
-const handleSave = () => {
-  const payload = {
-    title: editableDauroh.title,
-    genre: editableDauroh.genre
-  };
+const handleSave = (daurohData) => {
   if (isEditing.value) {
-    daurohStore.updateDauroh(editableDauroh.id, payload);
+    daurohStore.updateNowPlayingDauroh(daurohData.id, daurohData);
   } else {
-    daurohStore.addDauroh(payload);
+    daurohStore.addNowPlayingDauroh(daurohData);
   }
-  closeModal();
 };
 
-const handleDelete = (id) => {
-  if (confirm('Apakah Anda yakin ingin menghapus Dauroh ini?')) {
-    daurohStore.deleteDauroh(id);
+const openDeleteModal = (dauroh) => {
+  selectedDauroh.value = dauroh;
+  showDeleteModal.value = true;
+};
+
+const closeDeleteModal = () => {
+  showDeleteModal.value = false;
+};
+
+const confirmDelete = () => {
+  if (selectedDauroh.value) {
+    daurohStore.deleteNowPlayingDauroh(selectedDauroh.value.id);
   }
 };
 </script>
 
 <style scoped>
-.modal {
-  background-color: rgba(0,0,0,0.5);
-}
 .table-responsive {
   min-height: 200px;
 }

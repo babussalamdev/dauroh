@@ -16,20 +16,21 @@
         <ul class="navbar-nav flex-row me-3 align-items-center">
           
           <!-- JIKA SUDAH LOGIN -->
-          <template v-if="authStore.isLoggedIn">
-            <li class="nav-item me-3">
-              <NuxtLink class="nav-link text-dark-custom" to="/"><i class="bi bi-house-fill me-1"></i> Home</NuxtLink>
-            </li>
-            <li class="nav-item me-3">
-              <NuxtLink class="nav-link text-dark-custom" to="/dashboard">Dashboard</NuxtLink>
-            </li>
-            <li class="nav-item">
-              <span class="navbar-text text-dark-custom me-3">Halo, {{ authStore.userName }}</span>
-            </li>
-            <li class="nav-item">
-              <button @click="handleLogout" class="btn btn-danger rounded-pill btn-sm">Logout</button>
-            </li>
-          </template>
+           <template v-if="authStore.isLoggedIn">
+        <li class="nav-item me-3">
+          <NuxtLink class="nav-link text-dark-custom" to="/"><i class="bi bi-house-fill me-1"></i> Home</NuxtLink>
+        </li>
+        <li class="nav-item me-3">
+          <NuxtLink v-if="authStore.isAdmin" class="nav-link text-dark-custom" to="/admin">Dashboard</NuxtLink>
+          <NuxtLink v-else class="nav-link text-dark-custom" to="/dashboard">Dashboard</NuxtLink>
+          </li>
+        <li class="nav-item">
+          <span class="navbar-text text-dark-custom me-3">Halo, {{ authStore.userName }}</span>
+        </li>
+        <li class="nav-item">
+          <button @click="handleLogout" class="btn btn-danger rounded-pill btn-sm">Logout</button>
+        </li>
+      </template>
 
           <!-- JIKA BELUM LOGIN -->
           <template v-else>
@@ -59,10 +60,7 @@
         <!-- JIKA SUDAH LOGIN (MOBILE) -->
         <template v-if="authStore.isLoggedIn">
           <li class="nav-item">
-            <NuxtLink class="nav-link active" aria-current="page" to="/">Home</NuxtLink>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#"><i class="bi bi-tag-fill me-1"></i> Promo</a>
+            <NuxtLink class="nav-link active" aria-current="page" to="/"><i class="bi bi-house-fill me-1"></i>Home</NuxtLink>
           </li>
           <li class="nav-item">
             <NuxtLink class="nav-link" to="/dashboard">Dashboard</NuxtLink>

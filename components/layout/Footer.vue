@@ -10,11 +10,11 @@
             <span class="fs-4 text-dark-custom">Dauroh</span> <span class="fs-4 text-primary">Babussalam</span>
           </a>
           <div class="d-flex gap-3">
-            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-instagram"></i></a>
+            <a href="https://www.instagram.com/babussalam_assunnah?utm_source=ig_web_button_share_sheet&igsh=ZzZ4OTVranJ5cXdl" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-instagram"></i></a>
             <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-whatsapp"></i></a>
-            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-youtube"></i></a>
-            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-facebook"></i></a>
-            <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-telegram"></i></a>
+            <a href="https://www.youtube.com/@BabussalamAsSunnah" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-youtube"></i></a>
+            <a href="https://www.facebook.com/YayasanBabussalamAssunnah" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-facebook"></i></a>
+            <!-- <a href="#" class="btn btn-outline-secondary rounded-circle btn-social"><i class="bi bi-telegram"></i></a> -->
           </div>
         </div>
 

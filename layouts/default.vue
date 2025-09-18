@@ -5,11 +5,14 @@
         <NuxtPage />
       </main>
       <LayoutFooter />
+
+      <NotificationsToastNotification />
     </div>
 </template>
 
 <script setup>
 import LayoutNavbar from '../components/layout/Navbar.vue';
+import  NotificationsToastNotification  from '~/components/notifications/ToastNotification.vue';
 </script>
 
 <style scoped>

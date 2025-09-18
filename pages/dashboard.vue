@@ -3,17 +3,12 @@
     <div class="container py-5">
       <div v-if="authStore.isLoggedIn">
         <div class="row g-4">
-          <!-- ====================================================== -->
-          <!-- KOLOM KIRI: DAFTAR DAUROH -->
-          <!-- ====================================================== -->
           <div class="col-lg-8">
-            <!-- Kartu Dauroh yang Akan Datang -->
             <div class="card shadow-sm mb-4">
-              <div class="card-header bg-white py-3"> 
+              <div class="card-header bg-white py-3">
                 <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Dauroh yang Akan Datang</h5>
               </div>
               <div class="card-body">
-                <!-- Mengambil data dari userStore -->
                 <div v-if="userStore.getUpcomingDauroh.length > 0">
                   <div v-for="movie in userStore.getUpcomingDauroh" :key="movie.id" class="d-flex align-items-center mb-3 pb-3 border-bottom">
                     <img :src="movie.poster" class="rounded shadow-sm" style="width: 70px; height: 100px; object-fit: cover;" :alt="movie.title">
@@ -22,7 +17,7 @@
                       <p class="text-muted mb-1 small">{{ movie.genre }}</p>
                       <span class="badge bg-success">Terdaftar</span>
                     </div>
-                    <button class="btn btn-primary btn-sm">Lihat E-Tiket</button>
+                    <button class="btn btn-primary btn-sm" @click="openQrModal">Lihat E-Tiket</button>
                   </div>
                 </div>
                 <div v-else class="text-center text-muted py-4">
@@ -32,13 +27,11 @@
               </div>
             </div>
 
-            <!-- Kartu Riwayat Dauroh -->
             <div class="card shadow-sm">
               <div class="card-header bg-white py-3">
                 <h5 class="mb-0"><i class="bi bi-clock-history me-2"></i>Riwayat Dauroh</h5>
               </div>
               <div class="card-body">
-                <!-- Mengambil data dari userStore -->
                 <div v-for="movie in userStore.getHistoryDauroh" :key="movie.id" class="d-flex align-items-center mb-3 pb-3 border-bottom">
                   <img :src="movie.poster" class="rounded shadow-sm" style="width: 70px; height: 100px; object-fit: cover;" :alt="movie.title">
                   <div class="ms-3 flex-grow-1">
@@ -52,9 +45,6 @@
             </div>
           </div>
 
-          <!-- ====================================================== -->
-          <!-- KOLOM KANAN: PROFIL & BANTUAN -->
-          <!-- ====================================================== -->
           <div class="col-lg-4">
             <div class="card shadow-sm mb-4">
               <div class="card-header bg-white py-3">
@@ -77,7 +67,6 @@
                 <button class="btn btn-outline-secondary w-100">Edit Profil</button>
               </div>
             </div>
-
             <div class="card shadow-sm">
                <div class="card-header bg-white py-3">
                 <h5 class="mb-0"><i class="bi bi-question-circle-fill me-2"></i>Bantuan</h5>
@@ -91,29 +80,33 @@
         </div>
       </div>
     </div>
+    
+    <QrCodeModal :show="showQrModal" @close="closeQrModal" />
   </div>
 </template>
 
 <script setup>
-// // pages/dashboard.vue
+import { ref } from 'vue'; // Import ref
 import { useAuthStore } from '~/stores/auth';
-import { useUserStore } from '~/stores/user'; // Menggunakan store user yang baru
+import { useUserStore } from '~/stores/user';
+// PERUBAHAN: Import komponen modal
+import QrCodeModal from '~/components/modals/QrCodeModal.vue';
 
 const authStore = useAuthStore();
-const userStore = useUserStore(); // Gunakan userStore
+const userStore = useUserStore();
 
-// "Penjaga pintu" tetap aktif
 definePageMeta({
   middleware: 'auth'
 });
 
+// PERUBAHAN: Tambahkan state dan fungsi untuk modal
+const showQrModal = ref(false);
+const openQrModal = () => (showQrModal.value = true);
+const closeQrModal = () => (showQrModal.value = false);
+
 /*
 // NANTI (Dengan Backend): Hapus komentar di bawah ini
-import { onMounted } from 'vue';
-onMounted(() => {
-  // Panggil action untuk mengambil data Dauroh milik user dari server
-  userStore.fetchMyDauroh();
-})
+// ...
 */
 </script>
 

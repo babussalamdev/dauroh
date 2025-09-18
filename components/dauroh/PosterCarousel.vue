@@ -17,7 +17,6 @@
                   <div class="overlay p-2">
                     <p class="title fw-bold mb-1">{{ dauroh.title }}</p>
                     <p class="subtitle text-muted mb-0">{{ dauroh.genre }}</p>
-                    <!-- Tombol Edit & Hapus sudah dihapus dari sini -->
                   </div>
                 </div>
               </a>

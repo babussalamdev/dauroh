@@ -1,8 +1,6 @@
     // stores/user.ts
 import { defineStore } from 'pinia';
 import cityRainImage from '~/assets/img/city-rain.jpg';
-
-// Impor tipe data Movie dari store utama agar bisa dipakai ulang
 import type { Dauroh } from '~/stores/dauroh';
 
 export const useUserStore = defineStore('user', {
@@ -27,22 +25,28 @@ export const useUserStore = defineStore('user', {
   },
 
   actions: {
-    /*
-    // NANTI (Dengan Backend): Hapus komentar di bawah ini untuk mengambil data dari server
-    
-    async fetchMyDauroh() {
-      this.isLoading = true;
-      try {
-        // Panggil API khusus untuk mendapatkan Dauroh milik user yang login
-        // const response = await $fetch('/api/user/my-dauroh');
-        // this.upcomingDauroh = response.upcoming;
-        // this.historyDauroh = response.history;
-      } catch (error) {
-        console.error('Gagal mengambil data Dauroh saya:', error);
-      } finally {
-        this.isLoading = false;
+    registerDauroh(registrationData: { dauroh: Dauroh, participants: { name: string }[] }) {
+      const { dauroh, participants } = registrationData;
+      const toastStore = useToastStore(); // Panggil store di dalam action
+
+      const isAlreadyRegistered = this.upcomingDauroh.some(item => item.id === dauroh.id);
+      
+      if (!isAlreadyRegistered) {
+        this.upcomingDauroh.unshift(dauroh);
+        
+        // --- PICU NOTIFIKASI DI SINI ---
+        toastStore.showToast({
+          message: `Pendaftaran untuk "${dauroh.title}" berhasil!`,
+          type: 'success'
+        });
+        
+      } else {
+        // Notifikasi jika sudah terdaftar
+        toastStore.showToast({
+          message: `Anda sudah terdaftar di dauroh ini.`,
+          type: 'info'
+        });
       }
     },
-    */
   }
 });

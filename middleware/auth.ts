@@ -1,3 +1,5 @@
+import { useAuthStore } from '~/stores/auth'; // Pastikan baris ini ada
+
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const authStore = useAuthStore();
   const accessToken = useCookie('accessToken');

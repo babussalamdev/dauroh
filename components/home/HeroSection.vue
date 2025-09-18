@@ -8,31 +8,91 @@
         <SearchBar />
       </div>
 
-      <!-- Tombol Wrapper -->
       <div class="button-container">
-        <div class="button-item" >
+        <div class="button-item" @click="handleButtonClick('/qr')">
           <HeroButton :icon="QrCode" bgClass="btn-hero-custom" />
           <p class="mt-1">QR Code</p>
         </div>
-        <div class="button-item">
+        
+        <div class="button-item" @click="handleButtonClick('/jadwal')">
           <HeroButton :icon="JadwalIcon" bgClass="btn-hero-custom" />
           <p class="mt-1">Jadwal</p>
         </div>
-        <div class="button-item">
+
+        <div class="button-item" @click="handleButtonClick('/sewa-booth')">
           <HeroButton :icon="BoothIcon" bgClass="btn-hero-custom" />
           <p class="mt-1">Sewa Booth</p>
         </div>
       </div>
     </div>
+
+    <QrCodeModal :show="showQrModal" @close="closeQrModal" />
+    <InfoModal 
+      :show="showInfoModal" 
+      :title="infoModalContent.title" 
+      :message="infoModalContent.message" 
+      @close="closeInfoModal" 
+    />
   </section>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { useAuthStore } from '~/stores/auth';
+import { useUserStore } from '~/stores/user';
+import { useRouter } from 'vue-router'; // Import useRouter
 import SearchBar from '~/components/common/SearchBar.vue';
 import HeroButton from '~/components/button/HeroButton.vue';
 import QrCode from '~/components/icons/QrIcon.vue';
 import JadwalIcon from '~/components/icons/JadwalIcon.vue';
 import BoothIcon from '~/components/icons/BoothIcon.vue';
+import QrCodeModal from '~/components/modals/QrCodeModal.vue';
+import InfoModal from '~/components/modals/InfoModal.vue';
+
+const authStore = useAuthStore();
+const userStore = useUserStore();
+const router = useRouter(); // Gunakan router
+
+const showQrModal = ref(false);
+const showInfoModal = ref(false);
+const infoModalContent = ref({ title: '', message: '' });
+
+// --- FUNGSI BARU UNTUK MENGHANDLE SEMUA TOMBOL ---
+const handleButtonClick = (path) => {
+  if (!authStore.isLoggedIn) {
+    // Jika belum login, arahkan ke halaman login
+    router.push('/login');
+    return;
+  }
+
+  // Jika sudah login, lanjutkan ke fungsi masing-masing
+  switch (path) {
+    case '/qr':
+      handleQrClick();
+      break;
+    case '/jadwal':
+      router.push('/jadwal');
+      break;
+    case '/sewa-booth':
+      router.push('/sewa-booth');
+      break;
+  }
+};
+
+const handleQrClick = () => {
+  if (userStore.upcomingDauroh.length > 0) {
+    showQrModal.value = true;
+  } else {
+    infoModalContent.value = {
+      title: 'Informasi',
+      message: 'Anda belum terdaftar pada dauroh manapun untuk menampilkan QR Code.'
+    };
+    showInfoModal.value = true;
+  }
+};
+
+const closeQrModal = () => (showQrModal.value = false);
+const closeInfoModal = () => (showInfoModal.value = false);
 </script>
 
 <style scoped>

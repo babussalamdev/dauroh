@@ -66,11 +66,11 @@
 
 <script setup>
 // Bagian script kamu tidak perlu diubah sama sekali
-import TiketDauroh  from "../film/TiketDauroh.vue";
-import PosterCarousel from "../film/PosterCarousel.vue";
-import Studio from "../film/Studio.vue";
-import BottomBanner from "../film/BottomBanner.vue";
-import FoodBanner from "../film/FoodBanner.vue";
-import TopCarousel from "../film/TopCarousel.vue";
-import PromoCarousel from "../film/PromoCarousel.vue";
+import TiketDauroh  from "../dauroh/TiketDauroh.vue";
+import PosterCarousel from "../dauroh/PosterCarousel.vue";
+import Studio from "../dauroh/Studio.vue";
+import BottomBanner from "../dauroh/BottomBanner.vue";
+import FoodBanner from "../dauroh/FoodBanner.vue";
+import TopCarousel from "../dauroh/TopCarousel.vue";
+import PromoCarousel from "../dauroh/PromoCarousel.vue";
 </script>

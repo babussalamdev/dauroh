@@ -1,6 +1,7 @@
 // stores/dauroh.ts
 import { defineStore } from 'pinia';
 import cityRainImage from '~/assets/img/city-rain.jpg';
+import daurohImage from '~/assets/img/dauroh1.jpg';
 
 // DIUBAH: "Blueprint" data dari Movie menjadi Dauroh
 export interface Dauroh {
@@ -31,11 +32,19 @@ let nextStudioId = 4;
 // DIUBAH: Nama store menjadi useDaurohStore dan 'dauroh'
 export const useDaurohStore = defineStore('dauroh', {
   state: () => ({
+    // state 
+    searchQuery: '',
+    // STATE LOADING
+    isLoadingDaurohs: false,
+    isLoadingTopDaurohs: false,
+    isLoadingTiketDauroh: false,
+    isLoadingPromos: false,
+    isLoadingStudios: false,
     // DIUBAH: Nama "gudang data" disesuaikan
     nowPlayingDauroh: [
-      { id: 1, title: 'Dauroh Fiqih Muamalah', genre: 'Fiqih', poster: cityRainImage },
-      { id: 2, title: 'Dauroh Siroh Nabawiyah', genre: 'Sejarah', poster: cityRainImage },
-      { id: 3, title: 'Dauroh Tajwid Dasar', genre: 'Al-Quran', poster: cityRainImage },
+      { id: 1, title: 'Dauroh Fiqih', genre: 'Fiqih', poster: cityRainImage },
+      { id: 2, title: 'Dauroh ', genre: 'Sejarah', poster: cityRainImage },
+      { id: 3, title: 'Dauroh Tajwid', genre: 'Al-Quran', poster: cityRainImage },
       { id: 4, title: 'Dauroh Parenting Islami', genre: 'Keluarga', poster: cityRainImage },
       { id: 5, title: 'Dauroh 5', genre: 'Umum', poster: cityRainImage },
       { id: 6, title: 'Dauroh 6', genre: 'Umum', poster: cityRainImage },
@@ -50,11 +59,11 @@ export const useDaurohStore = defineStore('dauroh', {
     ] as Dauroh[],
 
     tiketDauroh: [
-        { id: 301, title: 'Akan Datang: Dauroh Waris', genre: 'Fiqih', topOverlay: 'Segera', date: 'Oktober 2025', poster: cityRainImage },
-        { id: 302, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: cityRainImage },
-        { id: 303, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: cityRainImage },
-        { id: 304, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: cityRainImage },
-        { id: 305, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: cityRainImage },
+        { id: 301, title: 'Akan Datang: Dauroh Fiqih', genre: 'Fiqih', topOverlay: 'Segera', date: 'Oktober 2025', poster: daurohImage },
+        { id: 302, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: daurohImage },
+        { id: 303, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: daurohImage },
+        { id: 304, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: daurohImage },
+        { id: 305, title: 'Akan Datang: Dauroh Zakat', genre: 'Fiqih', topOverlay: 'Segera', date: 'November 2025', poster: daurohImage },
     ] as Dauroh[],
 
     promoDauroh: [
@@ -72,12 +81,41 @@ export const useDaurohStore = defineStore('dauroh', {
     // DIUBAH: Nama "pengolah data" disesuaikan
     nowPlayingDaurohChunks: (state) => { const c = 4; const a = []; for(let i=0; i<state.nowPlayingDauroh.length; i+=c) a.push(state.nowPlayingDauroh.slice(i,i+c)); return a; },
     topDaurohChunks: (state) => (isMobile: boolean) => { const c = isMobile ? 1 : 3; const a = []; for(let i=0; i<state.topDauroh.length; i+=c) a.push(state.topDauroh.slice(i,i+c)); return a; },
-    tiketDaurohChunks: (state) => { const c = 4; const a = []; for(let i=0; i<state.tiketDauroh.length; i+=c) a.push(state.tiketDauroh.slice(i,i+c)); return a; },
     promoDaurohChunks: (state) => (isMobile: boolean) => { const c = isMobile ? 1 : 3; const a = []; for(let i=0; i<state.promoDauroh.length; i+=c) a.push(state.promoDauroh.slice(i,i+c)); return a; },
     getStudioCards: (state) => state.studioCards,
+    filteredTiketDauroh(state): Dauroh[] { if (!state.searchQuery) { return state.tiketDauroh; } return state.tiketDauroh.filter(dauroh => dauroh.title.toLowerCase().includes(state.searchQuery.toLowerCase()) );
+    },
+    tiketDaurohChunks(state): Dauroh[][] {
+      const sourceData = this.filteredTiketDauroh; // Menggunakan getter baru
+      const chunkSize = 4;
+      const chunks = [];
+      for (let i = 0; i < sourceData.length; i += chunkSize) {
+        chunks.push(sourceData.slice(i, i + chunkSize));
+      }
+      return chunks;
+    },
+    
   },
 
   actions: {
+    // search
+    setSearchQuery(query: string) {
+      this.searchQuery = query;
+    },
+     // --- TAMBAHKAN FUNGSI FETCH UNTUK SIMULASI ---
+    async fetchDaurohs() {
+      this.isLoadingDaurohs = true;
+      // Simulasi jeda waktu 1 detik seolah-olah mengambil data dari internet
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Di sini nantinya akan diisi dengan data dari API
+      this.isLoadingDaurohs = false;
+    },
+        async fetchTiketDauroh() {
+      this.isLoadingTiketDauroh = true;
+      // Simulasi jeda 1 detik
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      this.isLoadingTiketDauroh = false;
+    },
     // DIUBAH: Nama "pusat kendali" disesuaikan
     addNowPlayingDauroh(payload: { title: string, genre: string }) { const d: Dauroh = { id: nextNowPlayingId++, title: payload.title, genre: payload.genre, poster: cityRainImage }; this.nowPlayingDauroh.unshift(d); },
     updateNowPlayingDauroh(id: number, payload: { title: string, genre: string }) { const d = this.nowPlayingDauroh.find(i => i.id === id); if(d) { d.title = payload.title; d.genre = payload.genre; } },
