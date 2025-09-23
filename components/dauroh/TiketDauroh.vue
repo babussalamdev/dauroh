@@ -1,72 +1,60 @@
 <template>
   <div class="container mt-0">
-    <div v-if="daurohStore.tiketDaurohChunks.length > 0">
-      <div id="tiketDauroh" class="carousel slide carousel-dark" data-bs-ride="carousel" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
-        <div class="carousel-inner">
-          <div v-for="(chunk, chunkIndex) in daurohStore.tiketDaurohChunks" :key="chunkIndex" :class="['carousel-item', { active: chunkIndex === 0 }]">
-            <div class="row g-3 justify-content-center">
-              <a href="#" v-for="dauroh in chunk" :key="dauroh.id" class="col-6 col-md-3 mb-4 text-decoration-none">
-                <div class="card dauroh-card rounded-lg overflow-hidden h-100">
-                  <div class="position-relative">
-                    <img :src="dauroh.poster" class="card-img-top" :alt="dauroh.title" />
-                    <span class="overlay-top">{{ dauroh.topOverlay }}</span>
-                  </div>
-                  <div class="card-body d-flex flex-column p-3">
-                    <h6 class="card-title fw-bold text-dark">{{ dauroh.title }}</h6>
-                    <small class="text-muted mb-2">{{ dauroh.date || dauroh.genre }}</small>
-                    <div class="mt-auto d-flex flex-column flex-sm-row gap-2">
-                      <button class="btn btn-sm btn-outline-primary rounded-pill w-100" @click.prevent="openDetailModal(dauroh)">Detail</button>
-                      <button class="btn btn-sm btn-primary rounded-pill w-100" @click.prevent="handleRegisterClick(dauroh)">Daftar</button>
-                    </div>
+    <div v-if="!daurohStore.isLoadingTiketDauroh && daurohStore.tiketDaurohChunks.length > 0" id="tiketDauroh" class="carousel slide carousel-dark" data-bs-ride="carousel" @mouseenter="isHovered = true" @mouseleave="isHovered = false">
+      <div class="carousel-inner">
+        <div v-for="(chunk, chunkIndex) in daurohStore.tiketDaurohChunks" :key="chunkIndex" :class="['carousel-item', { active: chunkIndex === 0 }]">
+          <div class="row g-3 justify-content-center">
+            <a href="#" v-for="dauroh in chunk" :key="dauroh.id" class="col-6 col-md-3 mb-4 text-decoration-none">
+              <div class="card dauroh-card rounded-lg overflow-hidden h-100">
+                <div class="position-relative">
+                  <img :src="dauroh.poster" class="card-img-top" :alt="dauroh.title" />
+                  <span class="overlay-top">{{ dauroh.topOverlay }}</span>
+                </div>
+                <div class="card-body d-flex flex-column p-3">
+                  <h6 class="card-title fw-bold text-dark">{{ dauroh.title }}</h6>
+                  <small class="text-muted mb-2">{{ dauroh.date || dauroh.genre }}</small>
+                  <div class="mt-auto d-flex flex-column flex-sm-row gap-2">
+                    <button class="btn btn-sm btn-outline-primary rounded-pill w-100" @click.prevent="openDetailModal(dauroh)">Detail</button>
+                    <button class="btn btn-sm btn-primary rounded-pill w-100" @click.prevent="handleRegisterClick(dauroh)">Daftar</button>
                   </div>
                 </div>
-              </a>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+       <template v-if="daurohStore.tiketDaurohChunks.length > 1">
+          </template>
+    </div>
+    
+    <div v-else-if="daurohStore.isLoadingTiketDauroh" class="skeleton-container">
+      <div class="row g-3 justify-content-center">
+        <div v-for="n in 4" :key="n" class="col-6 col-md-3 mb-4">
+          <div class="card dauroh-card rounded-lg overflow-hidden h-100 placeholder-glow">
+            <div class="card-img-top placeholder" style="aspect-ratio: 2 / 3;"></div>
+            <div class="card-body d-flex flex-column p-3">
+              <h6 class="card-title placeholder col-9"></h6>
+              <small class="placeholder col-6"></small>
+              <div class="mt-auto d-flex flex-column flex-sm-row gap-2">
+                <a href="#" tabindex="-1" class="btn btn-sm btn-outline-primary rounded-pill w-100 disabled placeholder col-6"></a>
+                <a href="#" tabindex="-1" class="btn btn-sm btn-primary rounded-pill w-100 disabled placeholder col-6"></a>
+              </div>
             </div>
           </div>
         </div>
-         <template v-if="daurohStore.tiketDaurohChunks.length > 1">
-            <button class="carousel-control-prev" :class="{ 'd-none': !isHovered }" type="button" data-bs-target="#tiketDauroh" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" :class="{ 'd-none': !isHovered }" type="button" data-bs-target="#tiketDauroh" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </template>
       </div>
     </div>
-    
+
     <div v-else class="text-center py-5">
-      <h5 class="text-muted">Tidak ada hasil ditemukan</h5>
+      <h5 class="text-muted">Tidak ada dauroh yang tersedia saat ini</h5>
       <p v-if="daurohStore.searchQuery">Coba gunakan kata kunci pencarian yang lain.</p>
     </div>
 
-    <DaurohDetailModal
-      v-if="showDetailModal"
-      :show="showDetailModal"
-      :dauroh="selectedDauroh"
-      @close="closeDetailModal"
-      @register="handleRegisterFromDetail"
-    />
-    
-    <DaurohRegistrationModal
-      v-if="showRegistrationModal"
-      :show="showRegistrationModal"
-      :dauroh="selectedDauroh"
-      @close="closeRegistrationModal"
-      @submit="handleRegistrationSubmit"
-    />
-
-    <QrCodeModal
-      v-if="showQrModal"
-      :show="showQrModal"
-      @close="closeQrModal"
-    />
-  </div>
+    </div>
 </template>
 
 <script setup>
+// ... (Script Anda tidak perlu diubah sama sekali) ...
 import { ref } from "vue";
 import { useDaurohStore } from "~/stores/dauroh";
 import { useUserStore } from "~/stores/user";
@@ -205,5 +193,11 @@ const closeQrModal = () => {
   .flex-sm-row .btn {
     width: auto;
   }
+}
+.placeholder {
+  background-color: #e9ecef;
+}
+.card-img-top.placeholder {
+  width: 100%;
 }
 </style>

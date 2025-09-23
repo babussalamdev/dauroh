@@ -10,5 +10,4 @@ useHead({ title: 'Beranda' });
 
 import TiketDauroh from '~/components/dauroh/TiketDauroh.vue';
 import HeroSection from '~/components/home/HeroSection.vue';
-import NowPlayingSection from '~/components/home/NowPlayingSection.vue';
 </script>

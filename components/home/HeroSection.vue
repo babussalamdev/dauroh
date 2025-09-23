@@ -47,7 +47,6 @@ import QrCode from '~/components/icons/QrIcon.vue';
 import JadwalIcon from '~/components/icons/JadwalIcon.vue';
 import BoothIcon from '~/components/icons/BoothIcon.vue';
 import QrCodeModal from '~/components/modals/QrCodeModal.vue';
-import InfoModal from '~/components/modals/InfoModal.vue';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();

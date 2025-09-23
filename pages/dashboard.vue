@@ -5,7 +5,7 @@
         <div class="row g-4">
           <div class="col-lg-8">
             <div class="card shadow-sm mb-4">
-              <div class="card-header bg-white py-3">
+              <div class="card-header bg-white py-3"> 
                 <h5 class="mb-0"><i class="bi bi-calendar-check me-2"></i>Dauroh yang Akan Datang</h5>
               </div>
               <div class="card-body">
@@ -39,7 +39,7 @@
                     <p class="text-muted mb-1 small">{{ movie.genre }}</p>
                     <span class="badge bg-secondary">Selesai</span>
                   </div>
-                  <button class="btn btn-outline-secondary btn-sm">Unduh Sertifikat</button>
+                  <button class="btn btn-outline-secondary btn-sm" @click="downloadCertificate(movie)">Unduh Sertifikat</button>
                 </div>
               </div>
             </div>
@@ -64,7 +64,7 @@
                 </li>
               </ul>
               <div class="card-body">
-                <button class="btn btn-outline-secondary w-100">Edit Profil</button>
+                <NuxtLink to="/profile/edit" class="btn btn-outline-secondary w-100">Edit Profil</NuxtLink>
               </div>
             </div>
             <div class="card shadow-sm">
@@ -86,28 +86,27 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'; // Import ref
+import { ref } from 'vue';
 import { useAuthStore } from '~/stores/auth';
 import { useUserStore } from '~/stores/user';
-// PERUBAHAN: Import komponen modal
 import QrCodeModal from '~/components/modals/QrCodeModal.vue';
+import Swal from 'sweetalert2';
 
 const authStore = useAuthStore();
 const userStore = useUserStore();
 
-definePageMeta({
-  middleware: 'auth'
-});
-
-// PERUBAHAN: Tambahkan state dan fungsi untuk modal
 const showQrModal = ref(false);
 const openQrModal = () => (showQrModal.value = true);
 const closeQrModal = () => (showQrModal.value = false);
 
-/*
-// NANTI (Dengan Backend): Hapus komentar di bawah ini
-// ...
-*/
+const downloadCertificate = (dauroh) => {
+  Swal.fire({
+    title: 'Fitur Segera Hadir',
+    text: `Fitur unduh sertifikat untuk "${dauroh.title}" sedang dalam pengembangan.`,
+    icon: 'info',
+    confirmButtonText: 'Mengerti'
+  });
+};
 </script>
 
 <style scoped>
